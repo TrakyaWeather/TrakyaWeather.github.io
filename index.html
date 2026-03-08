@@ -450,7 +450,7 @@
             </div>
         </div>
 
-        <!-- 7 Day Forecast - 24 Saatlik Tahmin ÜSTÜNE ALINDI -->
+        <!-- 7 Day Forecast - 24 Saatlik Tahmin-->
         <div class="mb-8">
             <h3 class="text-xl font-bold mb-4 text-white flex items-center gap-2">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -461,7 +461,7 @@
             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4" id="dailyForecast"></div>
         </div>
 
-        <!-- Hourly Forecast Chart - 7 Günlük Tahmin ALTINA ALINDI -->
+        <!-- Hourly Forecast Chart - 7 Günlük Tahmin -->
         <div class="glass-panel rounded-3xl p-6 mb-8 shadow-xl fade-in-up">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-xl font-bold flex items-center gap-2 text-gray-800">
@@ -592,7 +592,7 @@ function animateWeatherIcon() {
         // İkonu temizle
         iconContainer.innerHTML = '';
         
-        // Yeni ikonu ekle (farklı bir kod da seçebilirsiniz)
+        // Yeni ikonu ekle 
         const weatherInfo = weatherIcons[currentCode] || weatherIcons[0];
         iconContainer.innerHTML = weatherInfo.svg;
         
@@ -1410,6 +1410,7 @@ function animateWeatherIcon() {
     </script>
 </body>
 </html>
+
 
 
 
