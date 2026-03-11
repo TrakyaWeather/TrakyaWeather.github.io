@@ -370,7 +370,7 @@
         </div>
     </div>
 
-    <!-- Main Header (hides on scroll) -->
+    
     <header class="main-header glass-panel sticky top-0 z-50 shadow-lg" id="mainHeader">
         <div class="container mx-auto px-4 py-4">
             <div class="flex flex-col md:flex-row items-center justify-between gap-4">
@@ -647,9 +647,7 @@
     </main>
 
     <script>
-        // ==========================================
-        // KENDİ İKONLARINIZI BURAYA EKLEYİN
-        // ==========================================
+        
         
         const customIconPaths = {
             0: { file: 'icons/gunesli.png', fallback: 'fa-sun', color: '#FDB813' },
@@ -678,15 +676,13 @@
             99: { file: 'icons/agirdolu.png', fallback: 'fa-bolt', color: '#F59E0B' }
         };
 
-        // ==========================================
-        // İKON AYARLARI
-        // ==========================================
+        
         
         const useCustomIcons = true;
         const iconFormat = 'png';
         const iconBasePath = 'icons/';
 
-        // Hava durumu açıklamaları
+        
         const weatherDescriptions = {
             0: "Açık",
             1: "Az Bulutlu",
@@ -714,9 +710,7 @@
             99: "Ağır Dolu Fırtınası"
         };
 
-        // ==========================================
-        // İKON FONKSİYONLARI
-        // ==========================================
+        
 
         function getIconHtml(code, size = 'small') {
             const iconData = customIconPaths[code] || customIconPaths[0];
@@ -769,9 +763,7 @@
             }, 600);
         }
 
-        // ==========================================
-        // SCROLL BEHAVIOR
-        // ==========================================
+        
         
         let lastScrollY = window.scrollY;
         const mainHeader = document.getElementById('mainHeader');
@@ -798,12 +790,10 @@
             }, 500);
         }
 
-        // ==========================================
-        // UYGULAMA KODU
-        // ==========================================
+        
 
         let hourlyChart = null;
-        let currentChartType = 'temperature'; // Default chart view
+        let currentChartType = 'temperature'; 
         let currentData = null;
         let currentLat = 41.0082;
         let currentLon = 28.9784;
@@ -854,7 +844,7 @@
                     currentLat = result.latitude;
                     currentLon = result.longitude;
                     currentCity = `${result.name}, ${result.country}`;
-                    isFirstLoad = true; // Reset for new city
+                    isFirstLoad = true; 
                     fetchWeatherData(currentLat, currentLon, currentCity);
                 } else {
                     hideLoading();
@@ -891,7 +881,7 @@
             const daily = data.daily;
             const hourly = data.hourly;
 
-            // Update mini header
+            
             const cityShort = cityName.split(',')[0];
             document.getElementById('miniLocation').textContent = cityShort;
             document.getElementById('miniTemp').textContent = `${Math.round(current.temperature_2m)}° - ${getWeatherDesc(current.weather_code)}`;
@@ -947,7 +937,7 @@
             updateHourlyChart(hourly);
             updateDailyForecast(daily);
             
-            // Only auto-select day on first load, don't scroll
+            
             if (isFirstLoad) {
                 selectedDayIndex = 0;
                 highlightDayCard(0);
@@ -986,7 +976,7 @@
 
             if (hourlyChart) hourlyChart.destroy();
 
-            // Determine visibility based on current chart type
+            
             const showTemp = currentChartType === 'temperature';
             const showPrecip = currentChartType === 'precipitation';
 
@@ -1092,7 +1082,7 @@
         function selectDay(dayIndex) {
             selectedDayIndex = dayIndex;
             
-            // Update active state on cards
+            
             document.querySelectorAll('.weather-card').forEach((card, index) => {
                 if (index === dayIndex) {
                     card.classList.add('active');
@@ -1101,7 +1091,7 @@
                 }
             });
             
-            // Show detail panel and scroll to it
+            
             showDayDetail(dayIndex);
         }
 
@@ -1166,7 +1156,7 @@
             const panel = document.getElementById('dayDetailPanel');
             panel.classList.add('open');
             
-            // Scroll to panel after a short delay to allow animation
+            
             setTimeout(() => {
                 const headerOffset = 80;
                 const elementPosition = panel.getBoundingClientRect().top;
@@ -1222,7 +1212,7 @@
         }
 
         function toggleChartType(type) {
-            // Update button styles
+            
             document.getElementById('btnTemp').className = type === 'temperature' ? 
                 'px-4 py-2 bg-white text-blue-600 rounded-md shadow-sm text-sm font-medium transition-all' : 
                 'px-4 py-2 text-gray-600 hover:text-gray-800 rounded-md text-sm font-medium transition-all';
@@ -1230,20 +1220,20 @@
                 'px-4 py-2 bg-white text-blue-600 rounded-md shadow-sm text-sm font-medium transition-all' : 
                 'px-4 py-2 text-gray-600 hover:text-gray-800 rounded-md text-sm font-medium transition-all';
 
-            // Update chart dataset visibility
+            
             if (hourlyChart) {
                 if (type === 'temperature') {
-                    // Show temperature (dataset 0), hide precipitation (dataset 1)
+                    
                     hourlyChart.setDatasetVisibility(0, true);
                     hourlyChart.setDatasetVisibility(1, false);
-                    // Update y-axis visibility
+                    
                     hourlyChart.options.scales.y.display = true;
                     hourlyChart.options.scales.y1.display = false;
                 } else if (type === 'precipitation') {
-                    // Hide temperature (dataset 0), show precipitation (dataset 1)
+                    
                     hourlyChart.setDatasetVisibility(0, false);
                     hourlyChart.setDatasetVisibility(1, true);
-                    // Update y-axis visibility
+                    
                     hourlyChart.options.scales.y.display = false;
                     hourlyChart.options.scales.y1.display = true;
                 }
@@ -1261,6 +1251,5 @@
         }
     </script>
 </body>
-
 
 </html>
