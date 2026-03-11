@@ -9,79 +9,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-@keyframes iconFall {
-    0% {
-        transform: translateY(0) scale(1);
-        opacity: 1;
-    }
-    50% {
-        transform: translateY(100px) scale(0.8);
-        opacity: 0.5;
-    }
-    100% {
-        transform: translateY(200px) scale(0);
-        opacity: 0;
-    }
-}
-
-@keyframes iconRise {
-    0% {
-        transform: translateY(200px) scale(0);
-        opacity: 0;
-    }
-    50% {
-        transform: translateY(-20px) scale(1.1);
-        opacity: 0.8;
-    }
-    100% {
-        transform: translateY(0) scale(1);
-        opacity: 1;
-    }
-}
-
-.icon-fall {
-    animation: iconFall 0.6s ease-in forwards;
-}
-
-.icon-rise {
-    animation: iconRise 0.8s ease-out forwards;
-}
-
-#weatherIcon {
-    transition: all 0.3s ease;
-}
-
-#weatherIcon:hover {
-    transform: scale(1.05);
-}
-.weather-icon-large {
-    width: 120px;
-    height: 120px;
-    object-fit: contain;
-    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2));
-}
-
-.weather-icon-svg {
-    width: 80px;
-    height: 80px;
-    object-fit: contain;
-    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
-}
-
-.weather-icon-fallback {
-    font-size: 80px;
-    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
-}
-
-.weather-icon-large-fallback {
-    font-size: 120px;
-    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2));
-}
-
-#weatherIcon {
-    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.15));
-    transform: scale(1.2);
-}
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         
         * {
@@ -102,6 +29,35 @@
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.3);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Header scroll behavior */
+        .main-header {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(0);
+        }
+        
+        .main-header.hidden-header {
+            transform: translateY(-100%);
+            opacity: 0;
+        }
+        
+        .mini-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 40;
+            transform: translateY(-100%);
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .mini-header.visible {
+            transform: translateY(0);
         }
         
         .weather-card {
@@ -131,13 +87,12 @@
             color: rgba(255,255,255,0.9);
         }
         
-        /* Aktif kartta sıcaklık renklerini koru */
         .weather-card.active .temp-max {
-            color: #FCA5A5 !important; /* Açık kırmızı */
+            color: #FCA5A5 !important;
         }
         
         .weather-card.active .temp-min {
-            color: #93C5FD !important; /* Açık mavi */
+            color: #93C5FD !important;
         }
         
         .weather-card::before {
@@ -308,18 +263,115 @@
             transform: scale(1.1);
         }
 
-        /* Sıcaklık renk sınıfları - Sadece 7 günlük tahmin için */
         .temp-max {
-            color: #EF4444 !important; /* Kırmızı */
+            color: #EF4444 !important;
         }
         
         .temp-min {
-            color: #60A5FA !important; /* Açık mavi */
+            color: #60A5FA !important;
+        }
+
+        @keyframes iconFall {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(100px) scale(0.8);
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(200px) scale(0);
+                opacity: 0;
+            }
+        }
+
+        @keyframes iconRise {
+            0% {
+                transform: translateY(200px) scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: translateY(-20px) scale(1.1);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .icon-fall {
+            animation: iconFall 0.6s ease-in forwards;
+        }
+
+        .icon-rise {
+            animation: iconRise 0.8s ease-out forwards;
+        }
+
+        #weatherIcon {
+            transition: all 0.3s ease;
+        }
+
+        #weatherIcon:hover {
+            transform: scale(1.05);
+        }
+        
+        .weather-icon-large {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2));
+        }
+
+        .weather-icon-svg {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+        }
+
+        .weather-icon-fallback {
+            font-size: 80px;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+        }
+
+        .weather-icon-large-fallback {
+            font-size: 120px;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2));
+        }
+
+        #weatherIcon {
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.15));
+            transform: scale(1.2);
         }
     </style>
+<base target="_blank">
+<base target="_blank">
 </head>
 <body>
-    <header class="glass-panel sticky top-0 z-50 shadow-lg">
+    <!-- Mini Header (appears on scroll) -->
+    <div class="mini-header py-3" id="miniHeader">
+        <div class="container mx-auto px-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <!-- Aynı logo kullanılıyor, sadece boyut küçültüldü -->
+                <img src="logo.png" alt="Logo" class="w-10 h-10 object-contain" id="miniLogo" onerror="this.style.display='none'; document.getElementById('miniLogoFallback').style.display='flex';">
+                <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white hidden" id="miniLogoFallback">
+                    <i class="fas fa-cloud-sun text-xl"></i>
+                </div>
+                <div>
+                    <h2 class="font-bold text-gray-800 text-lg" id="miniLocation">İstanbul</h2>
+                    <p class="text-sm text-gray-600" id="miniTemp">--°</p>
+                </div>
+            </div>
+            <button onclick="scrollToTop()" class="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:shadow-lg transition">
+                <i class="fas fa-search mr-2"></i>Yeni Ara
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Header (hides on scroll) -->
+    <header class="main-header glass-panel sticky top-0 z-50 shadow-lg" id="mainHeader">
         <div class="container mx-auto px-4 py-4">
             <div class="flex flex-col md:flex-row items-center justify-between gap-4">
                 <div class="flex items-center space-x-3">
@@ -336,7 +388,7 @@
                     </div>
                     <div>
                         <h1 class="text-2xl font-bold gradient-text">Trakya Hava Durumu</h1>
-                        <p class="text-xs text-gray-500">Erken Erişim v0.02</p>
+                        <p class="text-xs text-gray-500">Erken Erişim v0.3</p>
                     </div>
                 </div>
                 
@@ -601,11 +653,11 @@
         
         const customIconPaths = {
             0: { file: 'icons/gunesli.png', fallback: 'fa-sun', color: '#FDB813' },
-            1: { file: 'icons/parcalibu.png', fallback: 'fa-cloud-sun', color: '#FDB813' },
+            1: { file: 'icons/azbulut.png', fallback: 'fa-cloud-sun', color: '#FDB813' },
             2: { file: 'icons/parcalibu.png', fallback: 'fa-cloud-sun', color: '#9CA3AF' },
             3: { file: 'icons/bulutlu.png', fallback: 'fa-cloud', color: '#6B7280' },
             45: { file: 'icons/sisli.png', fallback: 'fa-smog', color: '#9CA3AF' },
-            48: { file: 'icons/kiragili.png', fallback: 'fa-smog', color: '#BFDBFE' },
+            48: { file: 'icons/sisli.png', fallback: 'fa-smog', color: '#BFDBFE' },
             51: { file: 'icons/hafifyagmur.png', fallback: 'fa-cloud-rain', color: '#60A5FA' },
             53: { file: 'icons/hafifyagmur.png', fallback: 'fa-cloud-rain', color: '#3B82F6' },
             55: { file: 'icons/hafifyagmur.png', fallback: 'fa-cloud-showers-heavy', color: '#2563EB' },
@@ -637,11 +689,11 @@
         // Hava durumu açıklamaları
         const weatherDescriptions = {
             0: "Açık",
-            1: "Parçalı Bulutlu",
+            1: "Az Bulutlu",
             2: "Parçalı Bulutlu",
             3: "Bulutlu",
             45: "Sisli",
-            48: "Kırağılı Sis",
+            48: "Donan Sis",
             51: "Hafif Çisenti",
             53: "Orta Çisenti",
             55: "Yoğun Çisenti",
@@ -657,7 +709,7 @@
             82: "Şiddetli Sağanak",
             85: "Kar Sağanağı",
             86: "Yoğun Kar Sağanağı",
-            95: "Gök Gürültülü Fırtına",
+            95: "Gök Gürültülü Yağmurlu",
             96: "Dolu Fırtınası",
             99: "Ağır Dolu Fırtınası"
         };
@@ -718,15 +770,46 @@
         }
 
         // ==========================================
+        // SCROLL BEHAVIOR
+        // ==========================================
+        
+        let lastScrollY = window.scrollY;
+        const mainHeader = document.getElementById('mainHeader');
+        const miniHeader = document.getElementById('miniHeader');
+        
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
+            
+            if (currentScrollY > 200) {
+                mainHeader.classList.add('hidden-header');
+                miniHeader.classList.add('visible');
+            } else {
+                mainHeader.classList.remove('hidden-header');
+                miniHeader.classList.remove('visible');
+            }
+            
+            lastScrollY = currentScrollY;
+        });
+        
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            setTimeout(() => {
+                document.getElementById('cityInput').focus();
+            }, 500);
+        }
+
+        // ==========================================
         // UYGULAMA KODU
         // ==========================================
 
         let hourlyChart = null;
+        let currentChartType = 'temperature'; // Default chart view
         let currentData = null;
         let currentLat = 41.0082;
         let currentLon = 28.9784;
         let currentCity = "İstanbul";
         let selectedDayIndex = 0;
+        let isFirstLoad = true;
 
         document.addEventListener('DOMContentLoaded', () => {
             fetchWeatherData(currentLat, currentLon, currentCity);
@@ -771,6 +854,7 @@
                     currentLat = result.latitude;
                     currentLon = result.longitude;
                     currentCity = `${result.name}, ${result.country}`;
+                    isFirstLoad = true; // Reset for new city
                     fetchWeatherData(currentLat, currentLon, currentCity);
                 } else {
                     hideLoading();
@@ -806,6 +890,11 @@
             const current = data.current;
             const daily = data.daily;
             const hourly = data.hourly;
+
+            // Update mini header
+            const cityShort = cityName.split(',')[0];
+            document.getElementById('miniLocation').textContent = cityShort;
+            document.getElementById('miniTemp').textContent = `${Math.round(current.temperature_2m)}° - ${getWeatherDesc(current.weather_code)}`;
 
             document.getElementById('locationName').textContent = cityName;
             document.getElementById('coords').textContent = `${lat.toFixed(2)}°N, ${lon.toFixed(2)}°E`;
@@ -858,7 +947,22 @@
             updateHourlyChart(hourly);
             updateDailyForecast(daily);
             
-            selectDay(0);
+            // Only auto-select day on first load, don't scroll
+            if (isFirstLoad) {
+                selectedDayIndex = 0;
+                highlightDayCard(0);
+                isFirstLoad = false;
+            }
+        }
+
+        function highlightDayCard(index) {
+            document.querySelectorAll('.weather-card').forEach((card, i) => {
+                if (i === index) {
+                    card.classList.add('active');
+                } else {
+                    card.classList.remove('active');
+                }
+            });
         }
 
         function updateHourlyChart(hourly) {
@@ -882,6 +986,10 @@
 
             if (hourlyChart) hourlyChart.destroy();
 
+            // Determine visibility based on current chart type
+            const showTemp = currentChartType === 'temperature';
+            const showPrecip = currentChartType === 'precipitation';
+
             hourlyChart = new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -897,14 +1005,16 @@
                         pointBackgroundColor: 'white',
                         pointBorderWidth: 3,
                         pointBorderColor: 'rgb(59, 130, 246)',
-                        yAxisID: 'y'
+                        yAxisID: 'y',
+                        hidden: !showTemp
                     }, {
                         label: 'Yağış İhtimali (%)',
                         data: precip,
                         type: 'bar',
                         backgroundColor: 'rgba(147, 197, 253, 0.6)',
                         borderRadius: 6,
-                        yAxisID: 'y1'
+                        yAxisID: 'y1',
+                        hidden: !showPrecip
                     }]
                 },
                 options: {
@@ -917,14 +1027,14 @@
                     scales: {
                         y: {
                             type: 'linear',
-                            display: true,
+                            display: showTemp,
                             position: 'left',
                             title: { display: true, text: 'Sıcaklık (°C)' },
                             grid: { color: 'rgba(0,0,0,0.05)' }
                         },
                         y1: {
                             type: 'linear',
-                            display: true,
+                            display: showPrecip,
                             position: 'right',
                             grid: { drawOnChartArea: false },
                             title: { display: true, text: 'Yağış (%)' },
@@ -953,9 +1063,9 @@
                 const weatherDesc = getWeatherDesc(daily.weather_code[i]);
                 
                 const card = document.createElement('div');
-                card.className = `weather-card glass-panel rounded-2xl p-4 text-center ${i === 0 ? 'active' : ''}`;
+                card.className = `weather-card glass-panel rounded-2xl p-4 text-center ${i === selectedDayIndex ? 'active' : ''}`;
                 card.onclick = () => selectDay(i);
-                // Max sıcaklık kırmızı, min sıcaklık açık mavi
+                
                 card.innerHTML = `
                     <div class="text-gray-500 text-sm mb-1 font-semibold">${dayName}</div>
                     <div class="text-xs text-gray-400 mb-2">${date.toLocaleDateString('tr-TR', {day: 'numeric', month: 'short'})}</div>
@@ -982,6 +1092,7 @@
         function selectDay(dayIndex) {
             selectedDayIndex = dayIndex;
             
+            // Update active state on cards
             document.querySelectorAll('.weather-card').forEach((card, index) => {
                 if (index === dayIndex) {
                     card.classList.add('active');
@@ -990,6 +1101,7 @@
                 }
             });
             
+            // Show detail panel and scroll to it
             showDayDetail(dayIndex);
         }
 
@@ -1054,8 +1166,9 @@
             const panel = document.getElementById('dayDetailPanel');
             panel.classList.add('open');
             
+            // Scroll to panel after a short delay to allow animation
             setTimeout(() => {
-                const headerOffset = 100;
+                const headerOffset = 80;
                 const elementPosition = panel.getBoundingClientRect().top;
                 const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
                 
@@ -1069,6 +1182,7 @@
         function closeDayDetail() {
             document.getElementById('dayDetailPanel').classList.remove('open');
             document.querySelectorAll('.weather-card').forEach(card => card.classList.remove('active'));
+            selectedDayIndex = -1;
         }
 
         function getWindDirection(degrees) {
@@ -1108,12 +1222,34 @@
         }
 
         function toggleChartType(type) {
+            // Update button styles
             document.getElementById('btnTemp').className = type === 'temperature' ? 
                 'px-4 py-2 bg-white text-blue-600 rounded-md shadow-sm text-sm font-medium transition-all' : 
                 'px-4 py-2 text-gray-600 hover:text-gray-800 rounded-md text-sm font-medium transition-all';
             document.getElementById('btnPrecip').className = type === 'precipitation' ? 
                 'px-4 py-2 bg-white text-blue-600 rounded-md shadow-sm text-sm font-medium transition-all' : 
                 'px-4 py-2 text-gray-600 hover:text-gray-800 rounded-md text-sm font-medium transition-all';
+
+            // Update chart dataset visibility
+            if (hourlyChart) {
+                if (type === 'temperature') {
+                    // Show temperature (dataset 0), hide precipitation (dataset 1)
+                    hourlyChart.setDatasetVisibility(0, true);
+                    hourlyChart.setDatasetVisibility(1, false);
+                    // Update y-axis visibility
+                    hourlyChart.options.scales.y.display = true;
+                    hourlyChart.options.scales.y1.display = false;
+                } else if (type === 'precipitation') {
+                    // Hide temperature (dataset 0), show precipitation (dataset 1)
+                    hourlyChart.setDatasetVisibility(0, false);
+                    hourlyChart.setDatasetVisibility(1, true);
+                    // Update y-axis visibility
+                    hourlyChart.options.scales.y.display = false;
+                    hourlyChart.options.scales.y1.display = true;
+                }
+                hourlyChart.update();
+            }
+            currentChartType = type;
         }
 
         function showLoading() {
@@ -1127,4 +1263,3 @@
 </body>
 
 </html>
-
